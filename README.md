@@ -48,7 +48,7 @@ opkg install knockd.ipk
 
 Change the default configuration:
 ````
-/etc/knockd.conf
+/etc/config/knockd
 ````
 
 Start and enable the deamon:

@@ -3,11 +3,52 @@
 START=99
 USE_PROCD=1
 
+PROG="/usr/sbin/knockd"
+CONFIGFILE="/var/run/knockd.conf"
+
+knockd_rule_add() {
+        local cfg="$1"
+
+        config_get sequence "$cfg" sequence
+        [ -n "$sequence" ] || return 0
+        config_get command "$cfg" command
+        [ -n "$command" ] || return 0
+        config_get seq_timeout "$cfg" seq_timeout
+        config_get tcpflags "$cfg" tcpflags
+        config_get stop_command "$cfg" stop_command
+        config_get cmd_timeout "$cfg" cmd_timeout
+
+        echo >> $CONFIGFILE
+        echo "[$cfg]" >> $CONFIGFILE
+        echo "sequence = $sequence" >> $CONFIGFILE
+        echo "command = $command" >> $CONFIGFILE
+        [ -n "$stop_command" ] && echo "stop_command = $stop_command" >> $CONFIGFILE
+        [ -n "$seq_timeout" ] && echo "seq_timeout = $seq_timeout" >> $CONFIGFILE
+        [ -n "$cmd_timeout" ] && echo "cmd_timeout = $cmd_timeout" >> $CONFIGFILE
+        [ -n "$tcpflags" ] && echo "tcpflags = $tcpflags" >> $CONFIGFILE
+}
+
 start_service() {
+        [ -f "$CONFIGFILE" ] && rm -f "$CONFIGFILE"
+
         procd_open_instance
+
+        config_load knockd
+
+        echo "[options]" >> $CONFIGFILE
+        echo "UseSyslog" >> $CONFIGFILE
+        config_get interface common interface
+        [ -n "$interface" ] && echo "interface = $interface" >> $CONFIGFILE
+
+        config_foreach knockd_rule_add rule
+
         procd_set_param command /usr/sbin/knockd
-        procd_append_param command -c /etc/knockd.conf
-        procd_set_param file /etc/knockd.conf
+        procd_append_param command -c $CONFIGFILE
+        procd_set_param file $CONFIGFILE
         procd_set_param respawn
         procd_close_instance
+}
+
+stop_service() {
+        [ -f "$CONFIGFILE" ] && rm -f "$CONFIGFILE"
 }

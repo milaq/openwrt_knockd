@@ -63,7 +63,7 @@ endef
 	
 define Package/knockd/install
 	$(INSTALL_DIR) $(1)/etc
-	$(INSTALL_CONF) files/knockd.conf $(1)/etc/
+	$(INSTALL_CONF) files/knockd.conf $(1)/etc/config/knockd
 	$(INSTALL_DIR) $(1)/etc/init.d/
 	$(INSTALL_BIN) files/knockd.init $(1)/etc/init.d/knockd
 	$(INSTALL_DIR) $(1)/usr/sbin

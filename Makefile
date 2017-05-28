@@ -14,7 +14,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/knock-$(PKG_VERSION)
 
 PKG_SOURCE:=knock-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.zeroflux.org/proj/knock/files/
-PKG_MD5SUM:=cb6373fd4ccb42eeca3ff406b7fdb8a7
+PKG_HASH:=9938479c321066424f74c61f6bee46dfd355a828263dc89561a1ece3f56578a4
 
 PKG_MAINTAINER:=milaq <micha.laqua@gmail.com>
 PKG_LICENSE:=GPL-2.0
@@ -22,29 +22,29 @@ PKG_LICENSE:=GPL-2.0
 include $(INCLUDE_DIR)/package.mk
 
 define Package/knockd
+  TITLE:=Port knocking service
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=Firewall
   DEPENDS:=+libpcap
-  TITLE:=Port-knocking (Server)
   URL:=http://www.zeroflux.org/projects/knock
 endef
 
-define Package/ead/description
+define Package/knockd/description
   It listens to all traffic on an ethernet (or PPP) interface,
-  looking for special "knock" sequences of port-hits. A client
-  makes these port-hits by sending a TCP (or UDP) packet to a
-  port on the server. This port need not be open -- since
+  looking for special "knock" sequences of port hits. A client
+  makes these port hits by sending a TCP (or UDP) packet to a
+  port on the server. This port doesn't need to be open -- since
   knockd listens at the link-layer level, it sees all traffic
   even if it's destined for a closed port. When the server
-  detects a specific sequence of port-hits, it runs a command
+  detects a specific sequence of port hits, it runs a command
   defined in its configuration file. This can be used to open
   up holes in a firewall for quick access.
-  This package contains the port-knocking server.
+  This package contains the port knocking server.
 endef
 
 define Package/knockd/conffiles
-  /etc/knockd.conf
+  /etc/config/knockd
 endef
 
 define Build/Configure

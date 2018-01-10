@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=knockd
 PKG_VERSION:=0.7
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_BUILD_DEPENDS:=libpcap
 PKG_BUILD_DIR:=$(BUILD_DIR)/knock-$(PKG_VERSION)

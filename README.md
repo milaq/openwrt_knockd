@@ -1,6 +1,10 @@
 # Knockd for OpenWrt/LEDE
 
-Tested with LEDE v17.01.1 for ar71xx
+Tested with LEDE v17.01.4 for ar71xx
+
+Built from latest (as of January 2018) release 0.7.
+
+Be advised that the upstream project is more or less unmaintained. This does _not_ mean you can't use knockd in production, but to think about it carefully. But if other, modern portknocking solutions feel too cumbersome for you, knockd may exactly be what you need.
 
 ## About
 
@@ -13,37 +17,49 @@ Available [here](https://github.com/milaq/openwrt_knockd/releases/)
 
 ## Building
 
-Using Debian Jessie
-
+Install prerequisites (for _Debian_):
 ````
 apt-get install build-essential libncurses5-dev gawk git subversion libssl-dev gettext unzip zlib1g-dev file python curl
+````
+
+Get the LEDE source and checkout the latest revision:
+````
 git clone https://git.lede-project.org/source.git lede
 cd lede
-git checkout v17.01.1
+git checkout v17.01.4
+````
+
+Prepare package directory for knockd:
+````
 mkdir package/knockd/
 ````
-Put all repository contents (Makefile, files/) into `package/knockd/`
+and put all repository contents (`Makefile`, `files/`, `patches/`) into `package/knockd/`
 
-Build Toolchain:
+Build toolchain:  
+When initially building select your target system and make sure `Network` -> `Firewall` -> `knockd` is selected.
 ````
 make tools/install
 make toolchain/install
 ````
 
-Build package:
+Build only the package:
 ````
 make package/knockd/configure
 make package/knockd/compile
 make package/knockd/install
 ````
 
-Get the built ipk from: `bin/packages/mips_24kc/base/knockd_*.ipk`
+Get the built ipk from:
+````
+bin/packages/mips_24kc/packages/knockd_<VERSION>.ipk
+````
 
 ## Installing
 
-Install the ipk via:
+Install the ipk:  
+Scp the ipk to `/tmp` on your LEDE machine and issue a
 ````
-opkg install knockd.ipk
+opkg install /tmp/knockd_<VERSION>.ipk
 ````
 
 Change the default configuration:

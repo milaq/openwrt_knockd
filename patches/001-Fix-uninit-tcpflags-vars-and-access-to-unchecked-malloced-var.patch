@@ -1,0 +1,28 @@
+--- a/src/knockd.c	2018-01-06 22:08:28.760357764 +0100
++++ b/src/knockd.c	2018-01-06 22:15:11.430287161 +0100
+@@ -509,6 +509,12 @@
+ 				door->start_command = NULL;
+ 				door->cmd_timeout = CMD_TIMEOUT; /* default command timeout (seconds) */
+ 				door->stop_command = NULL;
++				door->flag_fin = DONT_CARE;
++				door->flag_syn = DONT_CARE;
++				door->flag_rst = DONT_CARE;
++				door->flag_psh = DONT_CARE;
++				door->flag_ack = DONT_CARE;
++				door->flag_urg = DONT_CARE;
+ 				door->one_time_sequences_fd = NULL;
+ 				door->pcap_filter_exp = NULL;
+ 				doors = list_add(doors, door);
+@@ -1516,11 +1522,11 @@
+ 				struct hostent *he;
+ 				/* create a new entry */
+ 				attempt = (knocker_t*)malloc(sizeof(knocker_t));
+-				attempt->srchost = NULL;
+ 				if(attempt == NULL) {
+ 					perror("malloc");
+ 					exit(1);
+ 				}
++				attempt->srchost = NULL;
+ 				strcpy(attempt->src, srcIP);
+ 				/* try a reverse lookup if enabled  */
+ 				if (o_lookup) {

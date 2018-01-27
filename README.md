@@ -42,7 +42,13 @@ make tools/install
 make toolchain/install
 ````
 
-Build only the package:
+In case you didn't built the whole tree before you need to compile libpcap:
+````
+make package/libs/libpcap/configure
+make package/libs/libpcap/compile
+````
+
+Build the package:
 ````
 make package/knockd/configure
 make package/knockd/compile
@@ -51,7 +57,7 @@ make package/knockd/install
 
 Get the built ipk from:
 ````
-bin/packages/mips_24kc/packages/knockd_<VERSION>.ipk
+bin/packages/mips_24kc/base/knockd_<VERSION>.ipk
 ````
 
 ## Installing

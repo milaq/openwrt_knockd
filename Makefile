@@ -10,14 +10,17 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=knockd
 PKG_VERSION:=0.7
-PKG_RELEASE:=1
+PKG_RELEASE:=7
 
 PKG_BUILD_DEPENDS:=libpcap
-PKG_BUILD_DIR:=$(BUILD_DIR)/knock-$(PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/knockd-$(PKG_VERSION)
 
-PKG_SOURCE:=knock-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://www.zeroflux.org/proj/knock/files/
-PKG_HASH:=9938479c321066424f74c61f6bee46dfd355a828263dc89561a1ece3f56578a4
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/jvinet/knock.git
+PKG_SOURCE_VERSION:=258a27e5a47809f97c2b9f2751a88c2f94aae891
+PKG_SOURCE_DATE:=2015-12-27
+#PKG_MIRROR_HASH:=f1ca080500abd788d37731a01c9655447b7ae750fcf62300dcf8f8b773f9cd88
+PKG_FIXUP:=autoreconf
 
 PKG_MAINTAINER:=milaq <micha.laqua@gmail.com>
 PKG_LICENSE:=GPL-2.0
@@ -30,7 +33,7 @@ define Package/knockd
   CATEGORY:=Network
   SUBMENU:=Firewall
   DEPENDS:=+libpcap
-  URL:=http://www.zeroflux.org/projects/knock
+  URL:=https://github.com/jvinet/knock
 endef
 
 define Package/knockd/description
@@ -47,7 +50,7 @@ define Package/knockd/description
 endef
 
 define Package/knockd/conffiles
-  /etc/config/knockd
+/etc/config/knockd
 endef
 
 define Build/Configure
@@ -57,13 +60,21 @@ define Build/Configure
                 ac_cv_lib_pcap_pcap_open_live=yes \
         )
 endef
-	
-define Build/Compile	
+
+define Build/Compile
 	$(MAKE) -C $(PKG_BUILD_DIR) \
 		DESTDIR="$(PKG_INSTALL_DIR)" \
 		all install
 endef
-	
+
+# *** Install ***
+define Package/knockd/preinst
+	#!/bin/sh
+	# if NOT run buildroot then stop service
+	[ -z "$${IPKG_INSTROOT}" ] && /etc/init.d/knockd stop >/dev/null 2>&1
+	exit 0	# suppress errors
+endef
+
 define Package/knockd/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) files/knockd.conf $(1)/etc/config/knockd

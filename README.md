@@ -26,7 +26,7 @@ Get the LEDE source and checkout the latest revision:
 ````
 git clone https://git.lede-project.org/source.git lede
 cd lede
-git checkout v17.01.4
+git checkout v18.06.1
 ````
 
 Prepare package directory for knockd:
@@ -34,6 +34,12 @@ Prepare package directory for knockd:
 mkdir package/knockd/
 ````
 and put all repository contents (`Makefile`, `files/`, `patches/`) into `package/knockd/`
+
+or alternatively fetch directly from git:
+````
+cd package
+git clone https://github.com/milaq/openwrt_knockd.git knockd
+````
 
 Build toolchain:  
 When initially building select your target system and make sure `Network` -> `Firewall` -> `knockd` is selected.
@@ -50,9 +56,9 @@ make package/libs/libpcap/compile
 
 Build the package:
 ````
-make package/knockd/configure
+make package/knockd/clean
+make package/knockd/download
 make package/knockd/compile
-make package/knockd/install
 ````
 
 Get the built ipk from:

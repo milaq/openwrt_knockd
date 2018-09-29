@@ -1,0 +1,31 @@
+From 92308362d337196e3aae39d4734e0c2d449e224d Mon Sep 17 00:00:00 2001
+From: Marius Hoch <hoo@online.de>
+Date: Fri, 5 Jan 2018 16:13:36 +0100
+Subject: [PATCH] Check for NULL from malloc before using a struct
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Found this randomly while skimming over the code… I think this is the only occurrence in the file.
+---
+ src/knockd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/knockd.c b/src/knockd.c
+index d23a3cf..55653a6 100644
+--- a/src/knockd.c
++++ b/src/knockd.c
+@@ -1777,11 +1777,11 @@ void sniff(u_char* arg, const struct pcap_pkthdr* hdr, const u_char* packet)
+ 					struct hostent *he;
+ 					/* create a new entry */
+ 					attempt = (knocker_t*)malloc(sizeof(knocker_t));
+-					attempt->srchost = NULL;
+ 					if(attempt == NULL) {
+ 						perror("malloc");
+ 						exit(1);
+ 					}
++					attempt->srchost = NULL;
+ 					attempt->fromIpV6 = fromIpV6;
+ 					strcpy(attempt->src, srcIP);
+ 					/* try a reverse lookup if enabled  */
+

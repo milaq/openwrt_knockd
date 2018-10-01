@@ -1,7 +1,7 @@
 From 87e0fefc2d140ff4dc307f77d405dc4d7e7821e5 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 15:01:19 +0100
-Subject: [PATCH 01/11] Add dual support of ipv4/6 in knocking client
+Subject: [PATCH 01/12] Add dual support of ipv4/6 in knocking client
 
 ---
  src/knock.c | 88 +++++++++++++++++++++++++++++++++++++++--------------
@@ -178,7 +178,7 @@ index 319e51d..625f2c8 100644
 From 77459d7bdc8a47bb80bb806f58a956754cd4fb11 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 18:19:46 +0100
-Subject: [PATCH 02/11] First working version of knockd on ipv6
+Subject: [PATCH 02/12] First working version of knockd on ipv6
 
 ---
  src/knockd.c | 455 +++++++++++++++++++++++++++++++--------------------
@@ -848,7 +848,7 @@ index d23a3cf..be288b5 100644
 From a043f329309e01c6349a3dfc1f847f6269c06c09 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 18:40:20 +0100
-Subject: [PATCH 03/11] Add support of distinct command for IPv6 IPv4
+Subject: [PATCH 03/12] Add support of distinct command for IPv6 IPv4
 
 ---
  src/knockd.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++------
@@ -1016,7 +1016,7 @@ index be288b5..66ec7a4 100644
 From 17172cad64bf6548cb810a3569831b57bec9250d Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 18:51:51 +0100
-Subject: [PATCH 04/11] Update doc to add IPv4/IPv6 options
+Subject: [PATCH 04/12] Update doc to add IPv4/IPv6 options
 
 ---
  doc/knock.1.in  |  3 +++
@@ -1086,7 +1086,7 @@ index 625f2c8..4c4c879 100644
 From 07b5f3a1d8c91a375d54eccdd288478842b6c0f0 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 19:37:29 +0100
-Subject: [PATCH 05/11] Fix last TODOs for ipv6 support and fix a bug in
+Subject: [PATCH 05/12] Fix last TODOs for ipv6 support and fix a bug in
  cleanup() function
 
 ---
@@ -1154,7 +1154,7 @@ index 66ec7a4..4b13adf 100644
 From 9afc1427efcdbb81b8d5c9c9b0be3ad5a72188cb Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 19:48:14 +0100
-Subject: [PATCH 06/11] Add an option to ignore ipv6 on knockd
+Subject: [PATCH 06/12] Add an option to ignore ipv6 on knockd
 
 ---
  doc/knockd.1.in |  3 +++
@@ -1249,7 +1249,7 @@ index 4b13adf..3e98620 100644
 From 2135a14444dc64a6296d63c2f082b08610f7a08d Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 19:57:52 +0100
-Subject: [PATCH 07/11] Fix tcp flags rules for pcap in ipv6 mode
+Subject: [PATCH 07/12] Fix tcp flags rules for pcap in ipv6 mode
 
 ---
  src/knockd.c | 12 ++++++------
@@ -1317,7 +1317,7 @@ index 3e98620..2d5ad77 100644
 From 24b262eafd31b2a3f2fa2cf589584f9c9890b352 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 20:22:45 +0100
-Subject: [PATCH 08/11] Rename option in config file start_command_6, command_6
+Subject: [PATCH 08/12] Rename option in config file start_command_6, command_6
  and stop_command_6. Also update doc.
 
 ---
@@ -1422,7 +1422,7 @@ index 2d5ad77..d3d87e2 100644
 From bae0e630740a585acfdf6dfc195acf78ff45a258 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 20:31:42 +0100
-Subject: [PATCH 09/11] Change options on knock, use -4/-6/--ipv4/--ipv6
+Subject: [PATCH 09/12] Change options on knock, use -4/-6/--ipv4/--ipv6
  instead of -i/--ip X
 
 ---
@@ -1513,7 +1513,7 @@ index 4c4c879..efe119b 100644
 From b4e97ee0ba055e1e32b30e92f17f09d3b7fc6af6 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 21:24:01 +0100
-Subject: [PATCH 10/11] Some cleanup on IPv6 patch
+Subject: [PATCH 10/12] Some cleanup on IPv6 patch
 
 ---
  src/knockd.c | 22 +++++++++++-----------
@@ -1618,7 +1618,7 @@ index d3d87e2..e533dd2 100644
 From a9086772f4d27a289357b141d934c3a50da15723 Mon Sep 17 00:00:00 2001
 From: Sebastien Valat <sebastien.valat@gmail.com>
 Date: Fri, 5 Jan 2018 21:36:05 +0100
-Subject: [PATCH 11/11] Fix compiler warnings
+Subject: [PATCH 11/12] Fix compiler warnings
 
 ---
  src/knockd.c | 7 ++++---
@@ -1649,3 +1649,59 @@ index e533dd2..c09d917 100644
  
  	if(lltype == DLT_EN10MB) {
  		eth = (struct ether_header*)packet;
+
+From 0c1496983e8ab4159d4cea59b68cc771a9cdcce5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9bastien=20Valat?= <sebastien.valat@gmail.com>
+Date: Sun, 30 Sep 2018 20:34:07 +0200
+Subject: [PATCH 12/12] Implement proposal of default fallback to same command
+ than IPV4 if V6 one not defined
+
+---
+ doc/knockd.1.in | 7 ++++++-
+ src/knockd.c    | 8 ++++++++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/doc/knockd.1.in b/doc/knockd.1.in
+index 324a461..8813acd 100644
+--- a/doc/knockd.1.in
++++ b/doc/knockd.1.in
+@@ -213,7 +213,9 @@ knocker's IP address.  The \fBCommand\fP directive is an alias for
+ Specify the command to be executed when a client makes the correct
+ port-knock with IPv6.  All instances of \fB%IP%\fP will be replaced with the
+ knocker's IP address.  The \fBCommand_6\fP directive is an alias for
+-\fBStart_Command_6\fP.
++\fBStart_Command_6\fP. If not present it will automatically fallback onto
++the same IPV4 \fBStart_Command\fP value. You can use empty value to force
++doing nothing.
+ .TP
+ .B "Cmd_Timeout = <timeout>"
+ Time to wait (in seconds) between \fBStart_Command\fP and \fBStop_Command\fP.
+@@ -228,6 +230,9 @@ be replaced with the knocker's IP address.  This directive is optional.
+ Specify the command to be executed when \fBCmd_Timeout\fP seconds have passed 
+ since \fBStart_Command_6\fP has been executed.  All instances of \fB%IP%\fP will
+ be replaced with the knocker's IP address.  This directive is optional.
++If not present it will automatically fallback onto the same IPV4 
++\fBStop_Command\fP value. You can use empty value to force
++doing nothing.
+ .SH SECURITY NOTES 
+ Using the \fB-l\fP or \fB--lookup\fP commandline option to resolve DNS names
+ for log entries may be a security risk!  An attacker may find out the first port
+diff --git a/src/knockd.c b/src/knockd.c
+index c09d917..d42271d 100644
+--- a/src/knockd.c
++++ b/src/knockd.c
+@@ -1464,6 +1464,14 @@ void process_attempt(knocker_t *attempt)
+ 	{
+ 		start_command = attempt->door->start_command6;
+ 		stop_command = attempt->door->stop_command6;
++		
++		//make default fallback to same than ipv4 if v6 command is not set.
++		if (start_command == NULL) {
++			start_command = attempt->door->start_command;
++		}
++		if (stop_command == NULL) {
++			stop_command = attempt->door->stop_command;
++		}
+ 	} else {
+ 		start_command = attempt->door->start_command;
+ 		stop_command = attempt->door->stop_command;

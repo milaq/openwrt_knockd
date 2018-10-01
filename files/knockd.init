@@ -13,16 +13,20 @@ knockd_rule_add() {
         [ -n "$sequence" ] || return 0
         config_get command "$cfg" command
         [ -n "$command" ] || return 0
+        config_get command_6 "$cfg" command_6
         config_get seq_timeout "$cfg" seq_timeout
         config_get tcpflags "$cfg" tcpflags
         config_get stop_command "$cfg" stop_command
+        config_get stop_command_6 "$cfg" stop_command_6
         config_get cmd_timeout "$cfg" cmd_timeout
 
         echo >> $CONFIGFILE
         echo "[$cfg]" >> $CONFIGFILE
         echo "sequence = $sequence" >> $CONFIGFILE
         echo "command = $command" >> $CONFIGFILE
+        [ -n "${command_6}" ] && echo "command_6 = $command_6" >> $CONFIGFILE
         [ -n "$stop_command" ] && echo "stop_command = $stop_command" >> $CONFIGFILE
+        [ -n "${stop_command_6}" ] && echo "stop_command_6 = $stop_command_6" >> $CONFIGFILE
         [ -n "$seq_timeout" ] && echo "seq_timeout = $seq_timeout" >> $CONFIGFILE
         [ -n "$cmd_timeout" ] && echo "cmd_timeout = $cmd_timeout" >> $CONFIGFILE
         [ -n "$tcpflags" ] && echo "tcpflags = $tcpflags" >> $CONFIGFILE

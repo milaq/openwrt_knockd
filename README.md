@@ -1,8 +1,8 @@
 # Knockd for OpenWrt/LEDE
 
-Tested with LEDE v17.01.4 for ar71xx
+Tested with LEDE v18.06.1 for ar71xx
 
-Built from latest (as of January 2018) release 0.7.
+Built from latest git version 0.7.8.
 
 Be advised that the upstream project is more or less unmaintained. This does _not_ mean you can't use knockd in production, but to think about it carefully. But if other, modern portknocking solutions feel too cumbersome for you, knockd may exactly be what you need.
 
@@ -29,11 +29,10 @@ cd lede
 git checkout v18.06.1
 ````
 
-Prepare package directory for knockd:
+Get package for knockd:
 ````
-mkdir package/knockd/
+git clone https://github.com/milaq/openwrt_knockd.git package/knockd
 ````
-and put all repository contents (`Makefile`, `files/`, `patches/`) into `package/knockd/`
 
 or alternatively fetch directly from git:
 ````

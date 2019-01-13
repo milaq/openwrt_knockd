@@ -20,6 +20,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/jvinet/knock.git
 PKG_SOURCE_VERSION:=258a27e5a47809f97c2b9f2751a88c2f94aae891
 PKG_SOURCE_DATE:=2015-12-27
+#PKG_MIRROR_HASH:=f1ca080500abd788d37731a01c9655447b7ae750fcf62300dcf8f8b773f9cd88
 PKG_FIXUP:=autoreconf
 
 PKG_MAINTAINER:=milaq <micha.laqua@gmail.com>
@@ -50,7 +51,7 @@ define Package/knockd/description
 endef
 
 define Package/knockd/conffiles
-  /etc/config/knockd
+/etc/config/knockd
 endef
 
 define Build/Configure
@@ -67,6 +68,7 @@ define Build/Compile
 		all install
 endef
 
+# *** Install ***
 define Package/knockd/preinst
 	#!/bin/sh
 	# if NOT run buildroot then stop service

@@ -34,6 +34,12 @@ Get package for knockd:
 git clone https://github.com/milaq/openwrt_knockd.git package/knockd
 ````
 
+or alternatively fetch directly from git:
+````
+cd package
+git clone https://github.com/milaq/openwrt_knockd.git knockd
+````
+
 Build toolchain:  
 When initially building select your target system and make sure `Network` -> `Firewall` -> `knockd` is selected.
 ````
